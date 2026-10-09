@@ -1,0 +1,7 @@
+{# Full-page error for non-htmx requests (the PDF download is a normal form post). #}
+{% extends "base.html" %}
+{% block content %}
+<h1>CV Tailor</h1>
+{% include "partials/error.html" %}
+<p><a href="/">&larr; Back to CV Tailor</a></p>
+{% endblock %}

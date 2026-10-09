@@ -30,8 +30,10 @@ def get_llm(settings: SettingsDep) -> LLMClient:
 LLMDep = Annotated[LLMClient, Depends(get_llm)]
 
 
-def error_response(request: Request, message: str, status_code: int) -> HTMLResponse:
-    return templates.TemplateResponse(request, "partials/error.html", {"message": message}, status_code=status_code)
+def error_response(request: Request, message: str, status_code: int, full_page: bool = False) -> HTMLResponse:
+    # htmx requests get just the error box to swap into the page; normal form posts need a whole page.
+    template = "error_page.html" if full_page else "partials/error.html"
+    return templates.TemplateResponse(request, template, {"message": message}, status_code=status_code)
 
 
 @app.get("/", response_class=HTMLResponse)
@@ -80,6 +82,15 @@ def tailor(
 
     try:
         cv_text = extract_text(pdf_bytes)
+        # A small PDF can still hold a huge amount of text, which would make a slow,
+        # oversized prompt. Real CVs are a few thousand characters.
+        if len(cv_text) > settings.max_cv_chars:
+            return error_response(
+                request,
+                f"Your CV has an unusually large amount of text ({len(cv_text):,} characters, "
+                f"max {settings.max_cv_chars:,}). Please upload just your CV.",
+                422,
+            )
         cv = tailor_cv(llm, cv_text, job_description)
     except PDFExtractionError as exc:
         return error_response(request, str(exc), 422)
@@ -100,9 +111,11 @@ def download(request: Request, cv_json: Annotated[str, Form()] = "") -> Response
         cv = CVData.model_validate_json(cv_json)
         pdf = render_cv_pdf(cv)
     except ValidationError:
-        return error_response(request, "The CV data was missing or invalid. Please tailor your CV again.", 400)
+        return error_response(
+            request, "The CV data was missing or invalid. Please tailor your CV again.", 400, full_page=True
+        )
     except PDFRenderError as exc:
-        return error_response(request, str(exc), 500)
+        return error_response(request, str(exc), 500, full_page=True)
 
     # Keep the filename to safe ASCII characters for the Content-Disposition header.
     safe_name = re.sub(r"[^A-Za-z0-9]+", "_", cv.name).strip("_") or "tailored"

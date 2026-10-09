@@ -1,9 +1,9 @@
-fastapi
-uvicorn[standard]
-jinja2
-python-multipart
-pydantic-settings
-pypdf
-cryptography  # lets pypdf open AES-encrypted (edit-restricted) PDFs
-openai
-xhtml2pdf
+fastapi==0.143.0
+uvicorn[standard]==0.54.0
+jinja2==3.1.6
+python-multipart==0.0.32
+pydantic-settings==2.15.0
+pypdf==6.20.0
+cryptography==50.0.2  # lets pypdf open AES-encrypted (edit-restricted) PDFs
+openai==3.27.0
+xhtml2pdf==0.2.23

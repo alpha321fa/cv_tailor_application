@@ -1,0 +1,4 @@
+[tool.pytest.ini_options]
+# Let tests `import app` when pytest is run from the repo root.
+pythonpath = ["."]
+testpaths = ["tests"]

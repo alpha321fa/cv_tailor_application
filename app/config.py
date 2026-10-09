@@ -19,6 +19,7 @@ class Settings(BaseSettings):
 
     max_upload_bytes: int = 5 * 1024 * 1024
     max_job_description_chars: int = 15_000
+    max_cv_chars: int = 30_000  # extracted text; a typical CV is 3-8k characters
 
     @property
     def fallback_models(self) -> list[str]:
@@ -30,6 +31,6 @@ class Settings(BaseSettings):
         return not self.openrouter_api_key
 
 
-@lru_cache
+@lru_cache  # read .env once; restart the server after editing it
 def get_settings() -> Settings:
     return Settings()

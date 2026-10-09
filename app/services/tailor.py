@@ -1,5 +1,4 @@
 import json
-import re
 from pathlib import Path
 
 from pydantic import ValidationError
@@ -16,8 +15,6 @@ SYSTEM_PROMPT = PROMPT_PATH.read_text(encoding="utf-8").replace(
     "{schema}", json.dumps(CVData.model_json_schema(), indent=1)
 )
 
-_CODE_FENCE = re.compile(r"^```(?:json)?\s*|\s*```$")
-
 
 class TailoringError(Exception):
     """Raised when the LLM's reply can't be turned into a CV. The message is shown to the user."""
@@ -31,14 +28,13 @@ def parse_cv_json(raw: str) -> CVData:
     """Parse the model's reply into CVData, tolerating common formatting slips.
 
     Even in JSON mode some models wrap the JSON in ```json fences or add a
-    sentence before/after it, so strip fences and cut to the outermost {...}.
+    sentence before/after it. Cutting to the outermost {...} handles both.
     Raises ValueError (incl. pydantic's ValidationError) if it still isn't valid.
     """
-    text = _CODE_FENCE.sub("", raw.strip())
-    start, end = text.find("{"), text.rfind("}")
+    start, end = raw.find("{"), raw.rfind("}")
     if start == -1 or end < start:
         raise ValueError("No JSON object found in the model's reply.")
-    return CVData.model_validate_json(text[start : end + 1])
+    return CVData.model_validate_json(raw[start : end + 1])
 
 
 def tailor_cv(llm: LLMClient, cv_text: str, job_description: str) -> CVData:
