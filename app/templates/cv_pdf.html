@@ -1,0 +1,84 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>{{ cv.name }} - CV</title>
+<style>
+  /* xhtml2pdf supports only a subset of CSS: no flexbox or grid.
+     Tables are used for the "title ... dates" rows. */
+  /* Embedded font: the built-in Helvetica can't draw characters like Ł or →. */
+  @font-face { font-family: DejaVuSans; src: url("{{ font_dir }}/DejaVuSans.ttf"); }
+  @font-face { font-family: DejaVuSans; font-weight: bold; src: url("{{ font_dir }}/DejaVuSans-Bold.ttf"); }
+  @page { size: a4; margin: 1.6cm 1.8cm; }
+  body { font-family: DejaVuSans; font-size: 10pt; color: #222; line-height: 1.3; }
+  h1 { font-size: 20pt; margin: 0; }
+  .contact { color: #555; margin-top: 2pt; }
+  h2 { font-size: 11pt; text-transform: uppercase; color: #1f4e79;
+       border-bottom: 1px solid #1f4e79; margin: 12pt 0 4pt 0; padding-bottom: 1pt; }
+  table.row { width: 100%; margin-top: 6pt; }
+  td.dates { text-align: right; color: #555; width: 30%; }
+  .sub { color: #555; }
+  ul { margin: 2pt 0 0 0; padding-left: 14pt; }
+  li { margin-bottom: 1pt; }
+  p { margin: 2pt 0; }
+</style>
+</head>
+<body>
+  <h1>{{ cv.name }}</h1>
+  {% set c = cv.contact %}
+  {% set contact_bits = [c.email, c.phone, c.location] + c.links %}
+  <div class="contact">{{ contact_bits | select | join(" | ") }}</div>
+
+  {% if cv.summary %}
+  <h2>Profile</h2>
+  <p>{{ cv.summary }}</p>
+  {% endif %}
+
+  {% if cv.experience %}
+  <h2>Experience</h2>
+  {% for job in cv.experience %}
+  <table class="row"><tr>
+    <td><b>{{ job.title }}</b>{% if job.company %} - {{ job.company }}{% endif %}{% if job.location %}, <span class="sub">{{ job.location }}</span>{% endif %}</td>
+    <td class="dates">{{ [job.start, job.end] | select | join(" - ") }}</td>
+  </tr></table>
+  {% if job.bullets %}<ul>{% for b in job.bullets %}<li>{{ b }}</li>{% endfor %}</ul>{% endif %}
+  {% endfor %}
+  {% endif %}
+
+  {% if cv.projects %}
+  <h2>Projects</h2>
+  {% for p in cv.projects %}
+  <p style="margin-top: 6pt;"><b>{{ p.name }}</b>{% if p.description %} - {{ p.description }}{% endif %}</p>
+  {% if p.bullets %}<ul>{% for b in p.bullets %}<li>{{ b }}</li>{% endfor %}</ul>{% endif %}
+  {% endfor %}
+  {% endif %}
+
+  {% if cv.education %}
+  <h2>Education</h2>
+  {% for e in cv.education %}
+  <table class="row"><tr>
+    <td><b>{{ e.degree }}</b>{% if e.institution %} - {{ e.institution }}{% endif %}</td>
+    <td class="dates">{{ [e.start, e.end] | select | join(" - ") }}</td>
+  </tr></table>
+  {% if e.details %}<ul>{% for d in e.details %}<li>{{ d }}</li>{% endfor %}</ul>{% endif %}
+  {% endfor %}
+  {% endif %}
+
+  {% if cv.skills %}
+  <h2>Skills</h2>
+  {% for s in cv.skills %}
+  <p>{% if s.category %}<b>{{ s.category }}:</b> {% endif %}{{ s.items | join(", ") }}</p>
+  {% endfor %}
+  {% endif %}
+
+  {% if cv.certifications %}
+  <h2>Certifications</h2>
+  <ul>{% for cert in cv.certifications %}<li>{{ cert }}</li>{% endfor %}</ul>
+  {% endif %}
+
+  {% for section in cv.other_sections %}
+  <h2>{{ section.heading }}</h2>
+  <ul>{% for item in section.items %}<li>{{ item }}</li>{% endfor %}</ul>
+  {% endfor %}
+</body>
+</html>

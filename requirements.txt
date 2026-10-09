@@ -4,5 +4,6 @@ jinja2
 python-multipart
 pydantic-settings
 pypdf
+cryptography  # lets pypdf open AES-encrypted (edit-restricted) PDFs
 openai
 xhtml2pdf

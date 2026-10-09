@@ -1,0 +1,23 @@
+Junior Python Developer - Brightpath Software (Leeds, hybrid)
+
+About the role
+We're looking for a Junior Python Developer to join our small backend team building internal tools and REST APIs for our customer-support platform.
+
+What you'll do
+- Build and maintain backend services and REST APIs in Python
+- Write automated tests and help keep our CI pipeline green
+- Automate manual processes for our support and operations teams
+- Work with SQL databases (PostgreSQL)
+- Write clear documentation for the tools you build
+
+What we're looking for
+- Some experience with Python (degree, personal projects or work)
+- Understanding of web frameworks such as Flask, Django or FastAPI
+- Familiarity with Git and working in a team codebase
+- Basic SQL knowledge
+- Good communication skills and a willingness to learn
+
+Nice to have
+- Experience writing tests (pytest)
+- Exposure to Linux
+- Any experience in a support or customer-facing role
