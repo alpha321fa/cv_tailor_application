@@ -1,0 +1,73 @@
+{
+  "name": "Alex Morgan",
+  "contact": {
+    "email": "alex.morgan@example.com",
+    "phone": "07700 900123",
+    "location": "Manchester, UK",
+    "links": ["github.com/alexmorgan-example"]
+  },
+  "summary": "Computer Science graduate (BSc, 2:1) with hands-on Python experience from a Flask web application, a command-line data tool and workplace automation. Built a Python script that automated weekly reporting in an IT support role, and wrote pytest unit tests for a final-year project. Brings a year of support experience, clear technical writing and a strong interest in backend development.",
+  "experience": [
+    {
+      "title": "IT Support Assistant (part-time)",
+      "company": "Northbridge Library Services",
+      "location": "Manchester",
+      "start": "Sep 2023",
+      "end": "Jun 2024",
+      "bullets": [
+        "Automated weekly user-account reports with a Python script, saving roughly 2 hours per week",
+        "Wrote step-by-step documentation for staff on common software problems",
+        "Resolved around 30 helpdesk tickets per week covering hardware, printing and account issues",
+        "Set up and imaged 40 laptops for a new public computer suite"
+      ]
+    },
+    {
+      "title": "Retail Assistant",
+      "company": "Greenway Supermarkets",
+      "location": "Salford",
+      "start": "Jun 2021",
+      "end": "Aug 2023",
+      "bullets": [
+        "Trained four new starters on till procedures",
+        "Helped reorganise stock-room layout to reduce restocking time",
+        "Served customers in a busy store and handled cash and card payments"
+      ]
+    }
+  ],
+  "education": [
+    {
+      "degree": "BSc (Hons) Computer Science, 2:1",
+      "institution": "University of Salford",
+      "start": "2021",
+      "end": "2024",
+      "details": [
+        "Dissertation: a Flask web app for booking shared study rooms, with a SQLite database",
+        "Modules: Software Engineering, Databases, Web Development, Networks"
+      ]
+    }
+  ],
+  "skills": [
+    {"category": "Languages", "items": ["Python", "SQL", "JavaScript", "HTML/CSS"]},
+    {"category": "Tools", "items": ["Flask", "Git", "SQLite", "Linux command line", "Windows Server basics"]},
+    {"category": "Other", "items": ["Technical writing", "Customer service", "Team training"]}
+  ],
+  "projects": [
+    {
+      "name": "Room Booker",
+      "description": "Final-year project: Flask + SQLite web app for booking study rooms",
+      "bullets": [
+        "Wrote unit tests with pytest for the booking logic",
+        "Implemented user login, booking conflicts check and an admin view"
+      ]
+    },
+    {
+      "name": "Budget Tracker CLI",
+      "description": "Command-line tool that categorises bank CSV exports",
+      "bullets": ["Parses CSV files with pandas and produces monthly spending summaries"]
+    }
+  ],
+  "certifications": ["CompTIA IT Fundamentals (ITF+)"],
+  "other_sections": [
+    {"heading": "Languages", "items": ["English (native)", "Spanish (conversational)"]}
+  ]
+}
