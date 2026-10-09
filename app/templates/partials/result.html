@@ -1,0 +1,17 @@
+{# Returned by POST /tailor and swapped into #result by htmx. #}
+<div class="result-header">
+  <h2>Your tailored CV</h2>
+  {# A normal (non-htmx) form post, so the browser handles the PDF as a file download.
+     The tailored CV travels back as JSON in a hidden field, so the server stores nothing. #}
+  <form method="post" action="/download">
+    <input type="hidden" name="cv_json" value="{{ cv_json }}">
+    <button type="submit">Download PDF</button>
+  </form>
+</div>
+<p class="meta">
+  {% if model_used %}Tailored by <code>{{ model_used }}</code>.{% else %}Demo mode: this is a pre-made example.{% endif %}
+  Always proofread before sending - especially the profile summary, which the AI rewrites the most.
+</p>
+<article class="cv-preview">
+  {% include "partials/cv_content.html" %}
+</article>

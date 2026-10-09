@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block content %}
+<header>
+  <h1>CV Tailor</h1>
+  <p class="lead">Upload your CV and paste a job description. You'll get back your CV reworded and reordered
+    for that job, without any invented experience.</p>
+</header>
+
+{% if demo_mode %}
+<div class="notice">
+  <b>Demo mode:</b> no OpenRouter API key is set, so every request returns the same pre-made example
+  (based on <code>samples/sample_cv.pdf</code>). Add a key to <code>.env</code> to tailor your own CV.
+</div>
+{% endif %}
+
+<form hx-post="/tailor" hx-target="#result" hx-encoding="multipart/form-data"
+      hx-indicator="#loading" hx-disabled-elt="find button">
+  <label for="cv_file">Your CV (PDF, max {{ max_upload_mb }} MB)</label>
+  <input type="file" id="cv_file" name="cv_file" accept=".pdf,application/pdf" required>
+
+  <label for="job_description">Job description</label>
+  <textarea id="job_description" name="job_description" rows="12" maxlength="{{ max_jd_chars }}"
+            placeholder="Paste the full job advert here..." required></textarea>
+
+  <button type="submit">Tailor my CV</button>
+  <span id="loading" class="htmx-indicator">Tailoring your CV - this can take up to a minute...</span>
+</form>
+
+<section id="result" aria-live="polite"></section>
+{% endblock %}

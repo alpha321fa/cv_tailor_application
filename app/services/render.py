@@ -13,7 +13,8 @@ FONT_DIR = (APP_DIR / "fonts").as_posix()
 
 # Autoescaping matters here: CV text comes from the user and the LLM, so a
 # stray "<" must be rendered as text, not treated as HTML.
-_env = Environment(loader=FileSystemLoader(TEMPLATES_DIR), autoescape=select_autoescape())
+# The web pages (app/main.py) use this same environment.
+jinja_env = Environment(loader=FileSystemLoader(TEMPLATES_DIR), autoescape=select_autoescape())
 
 
 class PDFRenderError(Exception):
@@ -21,7 +22,7 @@ class PDFRenderError(Exception):
 
 
 def render_cv_html(cv: CVData) -> str:
-    return _env.get_template("cv_pdf.html").render(cv=cv, font_dir=FONT_DIR)
+    return jinja_env.get_template("cv_pdf.html").render(cv=cv, font_dir=FONT_DIR)
 
 
 def render_cv_pdf(cv: CVData) -> bytes:

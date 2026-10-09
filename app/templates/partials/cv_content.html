@@ -1,0 +1,59 @@
+{# The CV body. Shared by the PDF (cv_pdf.html) and the on-screen preview (result.html),
+   so both always show the same content. Each page supplies its own CSS.
+   Layout uses tables, not flexbox, because xhtml2pdf doesn't support flexbox. #}
+<h1>{{ cv.name }}</h1>
+{% set c = cv.contact %}
+{% set contact_bits = [c.email, c.phone, c.location] + c.links %}
+<div class="contact">{{ contact_bits | select | join(" | ") }}</div>
+
+{% if cv.summary %}
+<h2>Profile</h2>
+<p>{{ cv.summary }}</p>
+{% endif %}
+
+{% if cv.experience %}
+<h2>Experience</h2>
+{% for job in cv.experience %}
+<table class="row"><tr>
+  <td><b>{{ job.title }}</b>{% if job.company %} - {{ job.company }}{% endif %}{% if job.location %}, <span class="sub">{{ job.location }}</span>{% endif %}</td>
+  <td class="dates">{{ [job.start, job.end] | select | join(" - ") }}</td>
+</tr></table>
+{% if job.bullets %}<ul>{% for b in job.bullets %}<li>{{ b }}</li>{% endfor %}</ul>{% endif %}
+{% endfor %}
+{% endif %}
+
+{% if cv.projects %}
+<h2>Projects</h2>
+{% for p in cv.projects %}
+<p class="project"><b>{{ p.name }}</b>{% if p.description %} - {{ p.description }}{% endif %}</p>
+{% if p.bullets %}<ul>{% for b in p.bullets %}<li>{{ b }}</li>{% endfor %}</ul>{% endif %}
+{% endfor %}
+{% endif %}
+
+{% if cv.education %}
+<h2>Education</h2>
+{% for e in cv.education %}
+<table class="row"><tr>
+  <td><b>{{ e.degree }}</b>{% if e.institution %} - {{ e.institution }}{% endif %}</td>
+  <td class="dates">{{ [e.start, e.end] | select | join(" - ") }}</td>
+</tr></table>
+{% if e.details %}<ul>{% for d in e.details %}<li>{{ d }}</li>{% endfor %}</ul>{% endif %}
+{% endfor %}
+{% endif %}
+
+{% if cv.skills %}
+<h2>Skills</h2>
+{% for s in cv.skills %}
+<p>{% if s.category %}<b>{{ s.category }}:</b> {% endif %}{{ s.items | join(", ") }}</p>
+{% endfor %}
+{% endif %}
+
+{% if cv.certifications %}
+<h2>Certifications</h2>
+<ul>{% for cert in cv.certifications %}<li>{{ cert }}</li>{% endfor %}</ul>
+{% endif %}
+
+{% for section in cv.other_sections %}
+<h2>{{ section.heading }}</h2>
+<ul>{% for item in section.items %}<li>{{ item }}</li>{% endfor %}</ul>
+{% endfor %}
