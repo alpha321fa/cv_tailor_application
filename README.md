@@ -1,12 +1,12 @@
 # CV Tailor
 
-A small web app that tailors your CV to a specific job. Upload your CV as a PDF, paste a job description, and get back a PDF of the same CV, reworded and reordered to fit that role, **without inventing any experience**.
+*AI-generated README, except for the improvements section.*
 
-<!-- TODO: add a screenshot of the result page, e.g. docs/screenshot.png -->
+A small web app that tailors your CV to a specific job. Upload your CV as a PDF, paste a job description, and get back a PDF of the same CV, reworded and reordered to fit that role, without inventing any experience.
 
 ## What I built and why
 
-Tailoring a CV to every application helps, but doing it by hand is slow, and asking a chatbot often produces a CV full of skills you don't have. I wanted a tool that does the tedious part while sticking to my real experience:
+Tailoring a CV to every application helps, but doing it by hand is slow and asking a chatbot often produces a CV full of skills you don't have. I wanted a tool that does the tedious part while sticking to my real experience:
 
 - **Input:** your CV (PDF) and a job description (pasted text).
 - **Processing:** an LLM rewrites the profile summary, reorders and rewords bullet points and skills by relevance to the job, and uses the job's terminology only where the CV already supports it. It's told never to add employers, dates, numbers or skills that aren't in the original.
@@ -148,12 +148,10 @@ The app itself stores nothing: there is no database or session, and uploads are 
 
 ## What I'd improve with more time
 
-- **Retry on invalid JSON**: send the validation error back to the model once before giving up.
-- **Automatic faithfulness check**: built into the app, flagging any employer, date, skill or number in the output that isn't in the original CV (the check I ran manually).
-- **Side-by-side "what changed" view**, to make proofreading faster.
-- **Editable preview** before downloading.
-- **CI** (GitHub Actions running `ruff` and `pytest` on every push), and deployment to a free host.
-- **OCR** for scanned CVs, and better handling of multi-column layouts.
+- The ability to create tailored cover letters.
+- Add the option to import and export with docx file type.
+- A verification check to see whether tailored CV is faithful to original CV and no new information was invented.
+- The ability to add company information as context.
 
 ## Documentation
 
